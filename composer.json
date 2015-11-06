@@ -1,0 +1,34 @@
+{
+  "name": "Ffuenf/Ffuenf_UpdateScripts",
+  "license": "MIT",
+  "description": "This is a extension for Magento Community Edition that is meant to be a boilerplate to use independent upgrade scripts.",
+  "authors": [
+    {
+      "name": "Achim Rosenhagen",
+      "email": "a.rosenhagen@ffuenf.de"
+    }
+  ],
+  "type": "magento-module",
+  "require-dev": {
+    "phpunit/phpunit": "4.*"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "http://packages.firegento.com"
+    }
+  ],
+  "extra": {
+    "magento-root-dir": "./magento/",
+    "map": [
+      [
+        "app/code/local/Ffuenf/UpdateScripts",
+        "app/code/local/Ffuenf/UpdateScripts"
+      ],
+      [
+        "app/etc/modules/Ffuenf_UpdateScripts.xml",
+        "app/etc/modules/Ffuenf_UpdateScripts.xml"
+      ]
+    ]
+  }
+}
