@@ -37,4 +37,11 @@
             </ffuenf_updatescripts>
         </helpers>
     </global>
+    <phpunit>
+        <suite>
+            <modules>
+                <Ffuenf_UpdateScripts/>
+            </modules>
+        </suite>
+    </phpunit>
 </config>

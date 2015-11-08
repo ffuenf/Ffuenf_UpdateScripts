@@ -21,6 +21,7 @@
  * http://www.webguys.de/magento/eav-attribute-setup/
  * http://www.webguys.de/magento/adventskalender/turchen-23-installscripte-in-magento/
  */
+/* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 $conn = $installer->getConnection();
 
