@@ -39,7 +39,7 @@ class Ffuenf_UpdateScripts_Test_Config_Main extends EcomDev_PHPUnit_Test_Case_Co
      */
     public function testSetupExists() {
         $this->assertSchemeSetupScriptVersions(
-            '1.0.0', $this->expected('module')->getVersion(), null, CONFIG_EXTENSION_NAME_LOWER . '_setup'
+            '1.0.0', $this->expected('module')->getVersion(), null, self::CONFIG_EXTENSION_NAME_LOWER . '_setup'
         );
     }
 }
