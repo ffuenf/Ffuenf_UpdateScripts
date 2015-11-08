@@ -22,6 +22,7 @@
         <Ffuenf_UpdateScripts>
             <active>true</active>
             <codePool>local</codePool>
+            <depends>Ffuenf_Common</depends>
         </Ffuenf_UpdateScripts>
     </modules>
 </config>

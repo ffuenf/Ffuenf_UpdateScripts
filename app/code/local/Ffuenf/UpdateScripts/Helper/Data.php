@@ -16,8 +16,31 @@
  * @license    http://opensource.org/licenses/mit-license.php MIT License
  */
 
-class Ffuenf_UpdateScripts_Helper_Data extends Mage_Core_Helper_Abstract
+class Ffuenf_UpdateScripts_Helper_Data extends Ffuenf_Common_Helper_Core
 {
+    const CONFIG_EXTENSION_ACTIVE = 'ffuenf_updatescripts/general/enabled';
+
+    /**
+     * @var array
+     */
+    protected $_localeTemplatePath = array();
+
+    /**
+     * Variable for if the extension is active.
+     *
+     * @var bool
+     */
+    protected $_bExtensionActive;
+
+    /**
+     * Check to see if the extension is active.
+     *
+     * @return bool
+     */
+    public function isExtensionActive()
+    {
+        return $this->getStoreFlag(self::CONFIG_EXTENSION_ACTIVE, '_bExtensionActive');
+    }
 
     /**
      * Takes a serialized data and do a search/replace in it
@@ -113,5 +136,39 @@ class Ffuenf_UpdateScripts_Helper_Data extends Mage_Core_Helper_Abstract
                 }
             }
         }
+    }
+
+    /**
+     * Retrieve email template path for given locale
+     *
+     * @param  string $locale Locale
+     * @return string Locale Template Path
+     */
+    public function getLocaleEmailPath($locale = 'de_DE')
+    {
+        if (!isset($this->_localeTemplatePath[$locale])) {
+            $_localeTemplatePath = 'app' . DS . 'locale' . DS . $locale . DS . 'template' . DS . 'email' . DS;
+            $this->_localeTemplatePath[$locale] = Mage::getBaseDir() . DS . $_localeTemplatePath;
+            if (!is_dir($this->_localeTemplatePath[$locale])) {
+                Mage::throwException(
+                    Mage::helper('ffuenf_updatescripts')->__(
+                        'Directory "%s" not found. Locale not installed?',
+                        $this->_localeTemplatePath[$locale]
+                    )
+                );
+            }
+        }
+        return $this->_localeTemplatePath[$locale];
+    }
+
+    /**
+     * Get template content
+     *
+     * @param  string $filename Template file name
+     * @return string Template content
+     */
+    public function getTemplateContent($filename)
+    {
+        return @file_get_contents($filename);
     }
 }

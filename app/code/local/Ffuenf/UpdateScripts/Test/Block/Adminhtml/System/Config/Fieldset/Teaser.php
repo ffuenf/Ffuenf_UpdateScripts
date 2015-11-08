@@ -16,26 +16,19 @@
  * @license    http://opensource.org/licenses/mit-license.php MIT License
  */
 
-class Ffuenf_UpdateScripts_Test_Config_Setup extends EcomDev_PHPUnit_Test_Case_Config
+class Ffuenf_UpdateScripts_Test_Block_Adminhtml_System_Config_Fieldset_Teaser extends EcomDev_PHPUnit_Test_Case_Config
 {
-    /**
-     * Check if setup resources are defined
-     *
-     * @test
-     */
-    public function testSetupDefined() {
-        $this->assertSetupResourceDefined();
-        $this->assertSchemeSetupExists();
-    }
 
     /**
-     * Check if update scripts exists for the correct module version
+     * Check if the block aliases are returning the correct class names
      *
      * @test
      */
-    public function testSetupExists() {
-        $this->assertSchemeSetupScriptVersions(
-            '1.0.0', $this->expected('module')->getVersion(), null, 'ffuenf_updatescripts_setup'
+    public function testBlockAliases()
+    {
+        $this->assertBlockAlias(
+            'ffuenf_updatescripts/adminhtml_system_config_fieldset_teaser',
+            'Ffuenf_UpdateScripts_Block_Adminhtml_System_Config_Fieldset_Teaser'
         );
     }
 }

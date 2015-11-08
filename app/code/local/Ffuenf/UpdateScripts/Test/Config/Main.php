@@ -18,10 +18,6 @@
 
 class Ffuenf_UpdateScripts_Test_Config_Main extends EcomDev_PHPUnit_Test_Case_Config
 {
-
-    const CONFIG_EXTENSION_NAME_CAPS = 'Ffuenf_UpdateScripts';
-    const CONFIG_EXTENSION_NAME_LOWER = 'ffuenf_updatescripts';
-
     /**
      * Check if the installed module has the correct module version
      *
@@ -35,16 +31,37 @@ class Ffuenf_UpdateScripts_Test_Config_Main extends EcomDev_PHPUnit_Test_Case_Co
     }
 
     /**
-     * Check if the helper aliases are returning the correct class names
+     * Tests whether extension helper aliases are returning the correct class names
      *
      * @test
      */
     public function testHelperAliases()
     {
         $this->assertHelperAlias(
-            self::CONFIG_EXTENSION_NAME_LOWER, self::CONFIG_EXTENSION_NAME_CAPS . '_Helper_Data',
-            'correct helper alias'
+            'ffuenf_updatescripts',
+            'Ffuenf_UpdateScripts_Helper_Data'
         );
     }
 
+    /**
+     * Tests whether extension uses the old-style admin routing (not compatible with SUPEE-6788).
+     *
+     * @test
+     */
+    public function testGetOldAdminRouting()
+    {
+        $routers = Mage::getConfig()->getNode('admin/routers');
+        $offendingExtensions = array();
+        foreach ($routers[0] as $router) {
+            $name = $router->args->module;
+            if ($name != 'Mage_Adminhtml') {
+                $offendingExtensions[] = $router->args->module;
+            }
+        }
+        $this->assertEquals(
+            count($offendingExtensions),
+            0,
+            'This extension uses old-style admin routing which is not compatible with SUPEE-6788 / Magento 1.9.2.2+'
+        );
+    }
 }

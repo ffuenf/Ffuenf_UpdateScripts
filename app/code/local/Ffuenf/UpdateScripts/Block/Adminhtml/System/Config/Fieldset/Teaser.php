@@ -16,24 +16,7 @@
  * @license    http://opensource.org/licenses/mit-license.php MIT License
  */
 
-/**
- * @see Ffuenf_UpdateScripts_Helper_Data
- *
- * @loadSharedFixture shared
- */
-class Ffuenf_UpdateScripts_Test_Helper_Data extends EcomDev_PHPUnit_Test_Case
+class Ffuenf_UpdateScripts_Block_Adminhtml_System_Config_Fieldset_Teaser extends Ffuenf_Common_Block_Adminhtml_System_Config_Fieldset_Teaser
 {
-    /**
-     * Tests whether extension is active.
-     *
-     * @test
-     * @covers Ffuenf_UpdateScripts_Helper_Data::isExtensionActive
-     */
-    public function testIsExtensionActive()
-    {
-        $this->assertTrue(
-            Mage::helper('ffuenf_updatescripts')->isExtensionActive(),
-            'Extension is not active please check config'
-        );
-    }
+    protected $_moduleName = 'Ffuenf_UpdateScripts';
 }

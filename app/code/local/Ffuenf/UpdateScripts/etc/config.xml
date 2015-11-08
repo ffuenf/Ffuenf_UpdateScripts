@@ -36,7 +36,19 @@
                 <class>Ffuenf_UpdateScripts_Helper</class>
             </ffuenf_updatescripts>
         </helpers>
+        <blocks>
+            <ffuenf_updatescripts>
+                <class>Ffuenf_UpdateScripts_Block</class>
+            </ffuenf_updatescripts>
+        </blocks>
     </global>
+    <default>
+        <ffuenf_updatescipts>
+            <general>
+                <enabled>1</enabled>
+            </general>
+        </ffuenf_updatescipts>
+    </default>
     <phpunit>
         <suite>
             <modules>
