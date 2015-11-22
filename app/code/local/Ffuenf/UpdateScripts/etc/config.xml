@@ -20,7 +20,7 @@
 <config>
     <modules>
         <Ffuenf_UpdateScripts>
-            <version>1.0.0</version>
+            <version>1.0.2</version>
         </Ffuenf_UpdateScripts>
     </modules>
     <global>
@@ -49,6 +49,9 @@
             </general>
         </ffuenf_updatescipts>
     </default>
+    <uninstall>
+        <filename>uninstall.txt</filename>
+    </uninstall>
     <phpunit>
         <suite>
             <modules>
