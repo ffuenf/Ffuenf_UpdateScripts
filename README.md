@@ -71,7 +71,6 @@ modman clean Ffuenf_UpdateScripts
 ```
 see `sql/ffuenf_updatescripts_setup/uninstall.sql` to clear all entries of this extension from your database.
 
-
 Development
 -----------
 1. Fork the repository from GitHub.
