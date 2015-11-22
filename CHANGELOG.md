@@ -2,7 +2,11 @@
 
 This file is used to list changes made in each version of Ffuenf_UpdateScripts.
 
-## 1.0.1 (November 16, 2015)
+## 1.0.2 (Unreleased)
+
+* add uninstallation via [Ffuenf_MageTrashApp](https://github.com/ffuenf/Ffuenf_MageTrashApp)
+
+## 1.0.1 (November 19, 2015)
 
 * add dependency to [Ffuenf_Common](https://github.com/ffuenf/Ffuenf_Common)
 * common extension structure

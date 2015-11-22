@@ -1,0 +1,2 @@
+app/code/local/Ffuenf/UpdateScripts
+app/etc/modules/Ffuenf_UpdateScripts.xml
