@@ -2,7 +2,11 @@
 
 This file is used to list changes made in each version of Ffuenf_UpdateScripts.
 
-## 1.0.3 (Unreleased)
+## 1.0.3 (December 20, 2015)
+
+* fix dependency to Ffuenf_Common
+* phpcs / code style fixes
+* update travis build-matrix
 
 ## 1.0.2 (November 22, 2015)
 
