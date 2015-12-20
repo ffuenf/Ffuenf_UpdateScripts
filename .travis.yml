@@ -1,16 +1,15 @@
 language: php
 sudo: false
 php:
-- 5.3
 - 5.4
 - 5.5
 - 5.6
 - 7.0
 matrix:
+  fast_finish: true
   allow_failures:
   - env: MAGENTO_VERSION=magento-ce-1.9.1.1
   - env: MAGENTO_VERSION=magento-ce-1.9.1.0
-  - php: 5.3
   - php: 5.4
     env: MAGENTO_VERSION=magento-ce-1.9.2.2
   - php: 5.4
@@ -21,7 +20,6 @@ matrix:
     env: MAGENTO_VERSION=magento-mirror-1.8.1.0
   - php: 7.0
     env: MAGENTO_VERSION=magento-mirror-1.8.1.0
-  fast_finish: true
 env:
   global:
   - APPNAME=Ffuenf_UpdateScripts
@@ -30,13 +28,13 @@ env:
   - secure: OuPbvP27f9daVd3P2duVYIdwk1CG7AwCh6Fj7QbGytVhRX/oYwvzgIBMwdSPqmMnovoZR+ykvdsuGKm8sboBqm9Zf2KoKSGJCmCttUmOxOB1D2tphCNUOZo8XY5yFA9G5A5HuHeDw5qlny3q5MRU+7ekamNwEWHW1yqQaLTO1+QwCnALgkpD+vPElkmko7JQ1yjA5OqdOuTZ+XMW+seM0lKH/hd/L4+qCkKl1oeey8JiJ4Wz4jcKosSMHoUBQ93+GXRJXyHBIfOyajXrP1asWoF4JE5IseJYeu8FnWqhB88+rAnfUdjV9FwG4hcnoJHxFEkUM0cRe6v7Jjpu/K59tp6A8SepMrARH4FpEqZ6dN7T+nCYoabrPaRBrx9MUHqrYBbdhQo2llOGJ6q219E3xvr4t6reXRgqKbwSi4iC5uR20S9oYXyzLAzl95e2sZXE2hcbwzKKGs0f7MObPe5Y6+SsO0xKN2KmxkYFPRVCY2CGVWOqey0HcZ27BpTCF8kOd5MQyXO+R46nK/fVvObX4d1FlLZPlgj6MW8k9q8knz7vYhU+0DUbUbgog/bT0Z/Uad5Ws/FV5d0xTlJd3eiSNSBo1d10Zp/S/uCQG/NcX+3Xl9JoZyjX4hPtogIaRxHZPom3rPt08XobEDjv6WSniN9jw0SMZwvuTMpEx440zuY=
   matrix:
   - MAGENTO_VERSION=magento-ce-1.9.2.2
-  - MAGENTO_VERSION=magento-ce-1.9.2.1
-  - MAGENTO_VERSION=magento-ce-1.9.2.0
   - MAGENTO_VERSION=magento-ce-1.9.1.1
-  - MAGENTO_VERSION=magento-ce-1.9.1.0
   - MAGENTO_VERSION=magento-mirror-1.8.1.0
   - MAGENTO_VERSION=magento-mirror-1.7.0.2
   - MAGENTO_VERSION=magento-mirror-1.6.2.0
+before_script:
+- composer self-update
+- composer install --prefer-source
 script:
 - curl -sSL https://raw.githubusercontent.com/ffuenf/MageTestStand/master/setup.sh
   | bash

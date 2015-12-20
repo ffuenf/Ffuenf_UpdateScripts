@@ -78,7 +78,7 @@ class Ffuenf_UpdateScripts_Helper_Data extends Ffuenf_Common_Helper_Core
     /**
      * Takes a serialized data and removes an entry in it
      *
-     * @param string $search_for    string to search for (which should be replaced)
+     * @param string $search_for_array    string to search for (which should be replaced)
      * @param string $data          serialized data to search in
      *
      * @return string updated serialized data
@@ -109,19 +109,21 @@ class Ffuenf_UpdateScripts_Helper_Data extends Ffuenf_Common_Helper_Core
                     recursive_array_replace($find, $replace, $data[$key]);
                 } else {
                     // have to check if it's string to ensure no switching to string for booleans/numbers/nulls - don't need any nasty conversions
-                    if (is_string($value)) $data[$key] = str_replace($find, $replace, $value);
+                    if (is_string($value)) {
+                        $data[$key] = str_replace($find, $replace, $value);
+                    }
                 }
             }
         } else {
-            if (is_string($data)) $data = str_replace($find, $replace, $data);
+            if (is_string($data)) {
+                $data = str_replace($find, $replace, $data);
+            }
         }
     }
 
     /**
      * Helper function for removeFromSerializedData
      *
-     * @param string $find     string to search for (which should be replaced)
-     * @param string $replace  string to replace search for with
      * @param string &$data    serialized data to search in
      *
      * @return void
