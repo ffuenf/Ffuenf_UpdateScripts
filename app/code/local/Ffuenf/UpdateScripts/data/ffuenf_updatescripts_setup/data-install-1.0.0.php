@@ -36,9 +36,7 @@ foreach ($variableNames as $variableName) {
 /*
  * add transactional email templates
  *
-
 $localeEmailPath = Mage::helper('ffuenf_updatescripts')->getLocaleEmailPath();
-
 $templateCode = 'YOUR TEMPLATE CODE';
 $template = Mage::getModel('core/email_template')->loadByCode($templateCode);
 $template->setTemplateCode($templateCode)
@@ -70,37 +68,35 @@ Mage::log('Created new E-Mail Template: ' . $templateCode);
 /*
  * add cms static block
  *
-
 $storeId = 1;
-$cmsPage = array(
+$cmsBlock = array(
     'title' => 'Your title',
     'identifier' => 'identifier',
-    'content' => $content = 'your content',
+    'content' => 'your content',
     'is_active' => 1,
     'sort_order' => 0,
     'stores' => array($storeId),
     'root_template' => 'one_column',
     'view_mode' => 'core' # or 'easytemplate' for Webguys_EasyTemplate
 );
-Mage::helper('ffuenf_updatescripts')->saveCmsData($cmsPage , $storeId, false);
-Mage::log('Created new CMS block: ' . $cmsPage['title']);
+Mage::helper('ffuenf_updatescripts')->saveCmsData($cmsBlock, $storeId, false);
+Mage::log('Created new CMS block: ' . $cmsBlock['title']);
 */
 
 /*
  * add cms page
  *
-
 $storeId = 1;
 $cmsPage = array(
     'title' => 'Your title',
     'identifier' => 'identifier',
-    'content' => $content = 'your content',
+    'content' => 'your content',
     'is_active' => 1,
     'sort_order' => 0,
     'stores' => array($storeId),
     'view_mode' => 'core' # or 'easytemplate' for Webguys_EasyTemplate
 );
-Mage::helper('ffuenf_updatescripts')->saveCmsData($cmsPage , $storeId, true);
+Mage::helper('ffuenf_updatescripts')->saveCmsData($cmsPage, $storeId, true);
 Mage::log('Created new CMS page: ' . $cmsPage['title']);
 */
 
