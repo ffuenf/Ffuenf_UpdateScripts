@@ -22,7 +22,7 @@ Platform
 
 The following versions are supported and tested:
 
-* Magento Community Edition 1.9.2.2
+* Magento Community Edition 1.9.2.3
 * Magento Community Edition 1.9.1.1
 * Magento Community Edition 1.8.1.0
 * Magento Community Edition 1.7.0.2
@@ -90,7 +90,7 @@ License and Author
 ------------------
 
 - Author:: Achim Rosenhagen (<a.rosenhagen@ffuenf.de>)
-- Copyright:: 2015, ffuenf
+- Copyright:: 2016, ffuenf
 
 The MIT License (MIT)
 
