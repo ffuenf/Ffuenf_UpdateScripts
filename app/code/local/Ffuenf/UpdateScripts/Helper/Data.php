@@ -162,7 +162,6 @@ class Ffuenf_UpdateScripts_Helper_Data extends Ffuenf_Common_Helper_Core
     /**
      * Get template content
      *
-     * @param  string $filename Template file name
      * @return string Template content
      */
     public function getTemplateContent($identifier, $locale = 'de_DE', $type = 'block')
@@ -197,9 +196,9 @@ class Ffuenf_UpdateScripts_Helper_Data extends Ffuenf_Common_Helper_Core
                 }
                 $data['content'] = preg_replace('#\{\*.*\*\}#suU', '', $data['content']);
                 $template->setTemplateCode($data['identifier'])
-                         ->setTemplateType(2)
-                         ->setAddedAt(Mage::getSingleton('core/date')->gmtDate())
-                         ->setModifiedAt(Mage::getSingleton('core/date')->gmtDate());
+                            ->setTemplateType(2)
+                            ->setAddedAt(Mage::getSingleton('core/date')->gmtDate())
+                            ->setModifiedAt(Mage::getSingleton('core/date')->gmtDate());
                 $template->setTemplateText($data['content'])->save();
                 Ffuenf_Common_Model_Logger::logSystem(
                     array(
