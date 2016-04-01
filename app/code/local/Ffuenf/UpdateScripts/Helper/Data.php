@@ -124,7 +124,7 @@ class Ffuenf_UpdateScripts_Helper_Data extends Ffuenf_Common_Helper_Core
     /**
      * Helper function for removeFromSerializedData
      *
-     * @param string &$data    serialized data to search in
+     * @param string &$data serialized data to search in
      *
      * @return void
      */
@@ -141,26 +141,22 @@ class Ffuenf_UpdateScripts_Helper_Data extends Ffuenf_Common_Helper_Core
     }
 
     /**
-     * Retrieve email template path for given locale
+     * Retrieve template path for given locale
      *
      * @param  string $locale Locale
+     * @param  string $type
      * @return string Locale Template Path
      */
-    public function getLocaleEmailPath($locale = 'de_DE')
+    public function getLocaleTemplatePath($locale = 'de_DE', $type = 'block')
     {
-        if (!isset($this->_localeTemplatePath[$locale])) {
-            $_localeTemplatePath = 'app' . DS . 'locale' . DS . $locale . DS . 'template' . DS . 'email' . DS;
-            $this->_localeTemplatePath[$locale] = Mage::getBaseDir() . DS . $_localeTemplatePath;
-            if (!is_dir($this->_localeTemplatePath[$locale])) {
-                Mage::throwException(
-                    Mage::helper('ffuenf_updatescripts')->__(
-                        'Directory "%s" not found. Locale not installed?',
-                        $this->_localeTemplatePath[$locale]
-                    )
-                );
+        if (!isset($this->_localeTemplatePath[$locale][$type])) {
+            $_localeTemplatePath = 'app' . DS . 'locale' . DS . $locale . DS . 'template' . DS . $type . DS;
+            $this->_localeTemplatePath[$locale][$type] = Mage::getBaseDir() . DS . $_localeTemplatePath;
+            if (!is_dir($this->_localeTemplatePath[$locale][$type])) {
+                throw new Ffuenf_Common_Exception('Directory ' . $this->_localeTemplatePath[$locale][$type] . ' not found. Locale not installed?');
             }
         }
-        return $this->_localeTemplatePath[$locale];
+        return $this->_localeTemplatePath[$locale][$type];
     }
 
     /**
@@ -169,8 +165,95 @@ class Ffuenf_UpdateScripts_Helper_Data extends Ffuenf_Common_Helper_Core
      * @param  string $filename Template file name
      * @return string Template content
      */
-    public function getTemplateContent($filename)
+    public function getTemplateContent($identifier, $locale = 'de_DE', $type = 'block')
     {
+        $filepath = $this->getLocaleTemplatePath($locale, $type);
+        $filename = $filepath . DS . $identifier . '.html';
         return @file_get_contents($filename);
+    }
+
+    /**
+     * add cms pages, static blocks or transactional email templates
+     *
+     * @param  array $data
+     * @param  int $storeId store-id
+     * @param  string $type whether its a page, static block or transactional email template
+     */
+    public function saveCmsData($data, $storeId, $type = 'block') {
+        $store = array($storeId);
+        $store[] = Mage_Core_Model_App::ADMIN_STORE_ID;
+        switch ($type) {
+            case 'email':
+                if (preg_match('/<!--@subject\s*(.*?)\s*@-->/u', $data['content'], $matches)) {
+                    $template->setTemplateSubject($matches[1]);
+                    $data['content'] = str_replace($matches[0], '', $templateText);
+                }
+                if (preg_match('/<!--@vars\s*((?:.)*?)\s*@-->/us', $data['content'], $matches)) {
+                    $data['content'] = str_replace($matches[0], '', $data['content']);
+                }
+                if (preg_match('/<!--@styles\s*(.*?)\s*@-->/s', $data['content'], $matches)) {
+                    $template->setTemplateStyles($matches[1]);
+                    $data['content'] = str_replace($matches[0], '', $data['content']);
+                }
+                $data['content'] = preg_replace('#\{\*.*\*\}#suU', '', $data['content']);
+                $template->setTemplateCode($data['identifier'])
+                         ->setTemplateType(2)
+                         ->setAddedAt(Mage::getSingleton('core/date')->gmtDate())
+                         ->setModifiedAt(Mage::getSingleton('core/date')->gmtDate());
+                $template->setTemplateText($data['content'])->save();
+                Ffuenf_Common_Model_Logger::logSystem(
+                    array(
+                        'class'   => 'Ffuenf_UpdateScripts',
+                        'level'   => Zend_Log::DEBUG,
+                        'message' => 'Created new E-Mail Template: ' . $data['title'],
+                        'details' => $data['content']
+                    )
+                );
+                break;
+            case 'page':
+            case 'block':
+            default:
+                $model = ($type == 'page') ? Mage::getModel('cms/page') : Mage::getModel('cms/block');
+                if (preg_match('/<!--@title\s*(.*?)\s*@-->/u', $data['content'], $matches)) {
+                    $data['title'] = $matches[1];
+                    $data['content'] = str_replace($matches[0], '', $data['content']);
+                }
+                if (preg_match('/<!--@heading\s*(.*?)\s*@-->/u', $data['content'], $matches)) {
+                    $data['content_heading'] = $matches[1];
+                    $data['content'] = str_replace($matches[0], '', $data['content']);
+                }
+                if (preg_match('/<!--@root_template\s*(.*?)\s*@-->/s', $data['content'], $matches)) {
+                    $data['root_template'] = $matches[1];
+                    $data['content'] = str_replace($matches[0], '', $data['content']);
+                }
+                if (preg_match('/<!--@view_mode\s*(.*?)\s*@-->/s', $data['content'], $matches)) {
+                    $data['view_mode'] = $matches[1];
+                    $data['content'] = str_replace($matches[0], '', $data['content']);
+                }
+                $data['content'] = preg_replace('#\{\*.*\*\}#suU', '', $data['content']);
+                $collection = $model->getCollection()
+                                    ->addFieldToFilter('identifier', $data['identifier'])
+                                    ->addStoreFilter($storeId)
+                                    ->addFieldToFilter('store_id', array('in' => $store));
+                $cmsItem = $collection->getFirstItem();
+                if ($cmsItem && ($cmsItem->getBlockId() || $cmsItem->getPageId())) {
+                    $cmsItem->load();
+                    $oldData = $cmsItem->getData();
+                    $data = array_merge($oldData, $data);
+                    $cmsItem->setData($data)->save();
+                } else {
+                    $model->setData($data)->save();
+                }
+                Ffuenf_Common_Model_Logger::logSystem(
+                    array(
+                        'class'   => 'Ffuenf_UpdateScripts',
+                        'level'   => Zend_Log::DEBUG,
+                        'message' => 'Created new CMS ' . $type . ': ' . $data['title'],
+                        'details' => $data['content']
+                    )
+                );
+                break;
+        }
+        return $this;
     }
 }
