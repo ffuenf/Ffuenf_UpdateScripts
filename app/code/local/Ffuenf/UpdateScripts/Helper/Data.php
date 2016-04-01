@@ -162,6 +162,9 @@ class Ffuenf_UpdateScripts_Helper_Data extends Ffuenf_Common_Helper_Core
     /**
      * Get template content
      *
+     * @param  string $identifier
+     * @param  string $locale Locale
+     * @param  string $type
      * @return string Template content
      */
     public function getTemplateContent($identifier, $locale = 'de_DE', $type = 'block')
@@ -183,9 +186,10 @@ class Ffuenf_UpdateScripts_Helper_Data extends Ffuenf_Common_Helper_Core
         $store[] = Mage_Core_Model_App::ADMIN_STORE_ID;
         switch ($type) {
             case 'email':
+                $template = Mage::getModel('core/email_template')->loadByCode($data['identifier']);
                 if (preg_match('/<!--@subject\s*(.*?)\s*@-->/u', $data['content'], $matches)) {
                     $template->setTemplateSubject($matches[1]);
-                    $data['content'] = str_replace($matches[0], '', $templateText);
+                    $data['content'] = str_replace($matches[0], '', $data['content']);
                 }
                 if (preg_match('/<!--@vars\s*((?:.)*?)\s*@-->/us', $data['content'], $matches)) {
                     $data['content'] = str_replace($matches[0], '', $data['content']);
