@@ -4,7 +4,7 @@ This file is used to list changes made in each version of Ffuenf_UpdateScripts.
 
 ## 1.0.4 (February 3, 2016)
 
-* add helper for adding/updating cms pages and static blocks
+* add helper for adding/updating cms pages, static blocks and email templates
 
 ## 1.0.3 (December 20, 2015)
 

@@ -1,2 +1,8 @@
 app/code/local/Ffuenf/UpdateScripts      app/code/local/Ffuenf/UpdateScripts
 app/etc/modules/Ffuenf_UpdateScripts.xml app/etc/modules/Ffuenf_UpdateScripts.xml
+app/locale/de_DE/template/page           app/locale/de_DE/template/page
+app/locale/en_US/template/page           app/locale/en_US/template/page
+app/locale/de_DE/template/block          app/locale/de_DE/template/block
+app/locale/en_US/template/block          app/locale/en_US/template/block
+app/locale/de_DE/template/email          app/locale/de_DE/template/email
+app/locale/en_US/template/email          app/locale/en_US/template/email
